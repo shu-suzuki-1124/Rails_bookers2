@@ -23,6 +23,37 @@
             <% end %>
         </tr>
       </table>
+      <h2>コメント一覧</h2>
+      <table class='table'>
+        <% @book.book_comments.each do |book_comment|%>
+          <tr>
+            <td><%= link_to(book_comment.user) do %>
+              <%= image_tag book_comment.user.get_profile_image, size:"50x50" %><br>
+              <%= book_comment.user.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= book_comment.comment %>
+            </td>
+            <td>
+              <button>
+                <% if book_comment.user == current_user %>
+                  <%= link_to "削除", book_book_comment_path(book_comment.book, book_comment), method: :delete %>
+                <% end %>
+              </button>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+      <h2>コメント投稿</h2>
+      <table class='table'>
+  		  <tr>
+          <%= form_with model: [@book, @book_comment] do |f| %>
+            <%= f.text_area :comment, cols:'50', rows: '5', placeholder: "コメントをここに" %>
+            <%= f.submit "送信する" %>
+          <% end %>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
