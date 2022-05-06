@@ -4,6 +4,8 @@ class BooksController < ApplicationController
     @new_book = Book.new
     @book = Book.find(params[:id])
     @book_comment = BookComment.new
+
+    create_logs!
   end
 
   def index
@@ -51,5 +53,12 @@ class BooksController < ApplicationController
 
   def book_params
     params.require(:book).permit(:title, :body).merge(user: current_user)
+  end
+
+  def create_logs!
+    BookLog.create!(
+      user_id: current_user.id,
+      book_id: @book.id
+    )
   end
 end
